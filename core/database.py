@@ -3,6 +3,9 @@ import logging
 from sqlalchemy.engine import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.exc import SQLAlchemyError
+from fastapi import HTTPException
+
 
 from .config import configs
 
@@ -22,6 +25,10 @@ def get_db():
     try:
         yield db
         db.commit()
+    except SQLAlchemyError as e:
+        logging.debug(e)
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
     finally:
         if db:
             db.close()
