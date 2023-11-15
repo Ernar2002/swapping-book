@@ -7,7 +7,7 @@ class UserBase(Model):
     email: str
     first_name: str
     last_name: str
-    phone_number: str
+    phone_number: Optional[str]
 
 
 class UserCreate(UserBase):

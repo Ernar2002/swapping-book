@@ -34,7 +34,7 @@ class AuthService:
         if user_service.get_by_email(db, EmailStr(form.email).lower()):
             raise BadRequestException(
                 detail="User with this email already exists!")
-        if not is_valid_phone_number(form.phone_number):
+        if form.phone_number and not is_valid_phone_number(form.phone_number):
             raise BadRequestException(detail="Invalid phone number!")
         if form.password != form.re_password:
             raise BadRequestException(detail="Password mismatch!")
@@ -43,7 +43,6 @@ class AuthService:
             email=EmailStr(form.email).lower(),
             first_name=form.first_name,
             last_name=form.last_name,
-            father_name=form.father_name,
             phone_number=form.phone_number,
             password=hash_password(form.password)
         )
