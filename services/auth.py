@@ -21,8 +21,6 @@ class AuthService:
 
         if not user:
             raise BadRequestException(detail="Incorrect email or password!")
-        if not user.is_active:
-            raise BadRequestException(detail="User is not active!")
         if not verify_password(form.password, user.password):
             raise BadRequestException(detail='Incorrect email or password')
 
