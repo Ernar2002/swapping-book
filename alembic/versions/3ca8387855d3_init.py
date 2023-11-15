@@ -49,7 +49,6 @@ def upgrade() -> None:
     sa.Column('genre_id', sa.UUID(), nullable=True),
     sa.Column('author_id', sa.UUID(), nullable=True),
     sa.Column('year', sa.Integer(), nullable=True),
-    sa.Column('price', sa.String(), nullable=False),
     sa.Column('image_link', sa.TEXT(), nullable=True),
     sa.Column('is_active', sa.Boolean(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),

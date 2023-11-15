@@ -3,13 +3,14 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
 from core import Base
-from .base import NamedModel
+from .base import Model
 
 
-class Book(NamedModel, Base):
+class Book(Model, Base):
 
     __tablename__ = "books"
 
+    name = Column(String, nullable=False, index=True)
     publisher_id = Column(UUID(as_uuid=True),
                           ForeignKey("users.id"),
                           nullable=False)
@@ -20,7 +21,6 @@ class Book(NamedModel, Base):
                         ForeignKey("authors.id"),
                         nullable=True)
     year = Column(Integer)
-    price = Column(String, nullable=False)
     image_link = Column(TEXT, nullable=True)
     is_active = Column(Boolean, nullable=False, default=True)
     
