@@ -19,11 +19,10 @@ class Book(NamedModel, Base):
     author_id = Column(UUID(as_uuid=True),
                         ForeignKey("authors.id"),
                         nullable=True)
-    year = Column(Integer(10))
+    year = Column(Integer)
     price = Column(String, nullable=False)
     image_link = Column(TEXT, nullable=True)
-    is_active = Column(Boolean, nullable=False,
-                       server_default=True)
+    is_active = Column(Boolean, nullable=False, default=True)
     
     publisher = relationship("User", back_populates="books")
     genre = relationship("Genre", back_populates="books")
