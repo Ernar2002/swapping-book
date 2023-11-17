@@ -1,4 +1,5 @@
 import uuid
+import enum
 from typing import List
 
 from fastapi import APIRouter, Depends, status
@@ -18,13 +19,26 @@ router = APIRouter(
             HTTPBearer())])
 
 
+class BookSortField(str, enum.Enum):
+    BOOK = "book"
+    AUTHOR = "author"
+    GENRE = "genre"
+    
+class BookSortOrder(str, enum.Enum):
+    ASC = "asc"
+    DESC = "desc"
+
+
 @router.get("", dependencies=[Depends(HTTPBearer())],
             response_model=List[BookRead],
             summary="Get all Books")
 async def get_all(*,
                   db: Session = Depends(get_db),
+                  filter: str = None,
                   skip: int = 0,
                   limit: int = 100,
+                  sort_field: BookSortField = None,
+                  sort_order: BookSortOrder = None,
                   Authorize: AuthJWT = Depends()
                   ):
     """
@@ -38,7 +52,7 @@ async def get_all(*,
             This parameter is optional and defaults to 100.
    """
     Authorize.jwt_required()
-    return book_service.get_all(db, skip, limit)
+    return book_service.get_all(db, filter, sort_field, sort_order, skip, limit)
 
 
 @router.get("/user/{user_id}", dependencies=[Depends(HTTPBearer())],
@@ -47,8 +61,11 @@ async def get_all(*,
 async def get_by_user(*,
                   db: Session = Depends(get_db),
                   user_id: str,
+                  filter: str = None,
                   skip: int = 0,
                   limit: int = 100,
+                  sort_field: BookSortField = None,
+                  sort_order: BookSortOrder = None,
                   Authorize: AuthJWT = Depends()
                   ):
     """
@@ -62,7 +79,13 @@ async def get_by_user(*,
             This parameter is optional and defaults to 100.
    """
     Authorize.jwt_required()
-    return book_service.get_by_user(db, user_id, skip, limit)
+    return book_service.get_by_user(db,
+                                    user_id,
+                                    filter,
+                                    sort_field,
+                                    sort_order,
+                                    skip,
+                                    limit,)
 
 
 @router.get("/my", dependencies=[Depends(HTTPBearer())],
@@ -70,8 +93,11 @@ async def get_by_user(*,
             summary="Get all my books")
 async def get_my_books(*,
                   db: Session = Depends(get_db),
+                  filter: str = None,
                   skip: int = 0,
                   limit: int = 100,
+                  sort_field: BookSortField = None,
+                  sort_order: BookSortOrder = None,
                   Authorize: AuthJWT = Depends()
                   ):
     """
@@ -79,7 +105,13 @@ async def get_my_books(*,
     """
     Authorize.jwt_required()
     user_id = Authorize.get_jwt_subject()
-    return book_service.get_by_user(db, user_id, skip, limit) 
+    return book_service.get_by_user(db,
+                                    user_id,
+                                    filter,
+                                    sort_field,
+                                    sort_order,
+                                    skip,
+                                    limit) 
 
 
 @router.post("", status_code=status.HTTP_201_CREATED,

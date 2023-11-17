@@ -3,7 +3,7 @@ import uuid
 from typing import Optional
 
 from .base import NamedModel, ReadNamedModel
-
+from schemas import GenreRead, AuthorRead
 
 class BookBase(NamedModel):
     genre_id: uuid.UUID
@@ -26,6 +26,8 @@ class BookRead(BookBase, ReadNamedModel):
     author_id: Optional[uuid.UUID]
     year: Optional[int]
     is_active: Optional[bool]
+    genre: Optional[GenreRead]
+    author: Optional[AuthorRead]
 
     class Config:
         orm_mode = True
