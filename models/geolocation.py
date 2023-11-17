@@ -16,4 +16,6 @@ class GeoLocation(Model, Base):
     lattd = Column(String, nullable=False)
     longtd = Column(String, nullable=False)
 
-    user = relationship("User", back_populates="geolocation")
+    user = relationship("User",
+                        foreign_keys=[user_id],
+                        back_populates="geolocation")

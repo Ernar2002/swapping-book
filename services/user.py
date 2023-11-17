@@ -4,8 +4,9 @@ from fastapi.encoders import jsonable_encoder
 
 from exceptions import BadRequestException
 from models import User
-from schemas import UserCreate, UserUpdate
+from schemas import UserCreate, UserUpdate, BudgetCreate
 from .base import ServiceBase
+from .budget import budget_service
 
 
 class UserService(ServiceBase[User, UserCreate, UserUpdate]):
@@ -16,9 +17,7 @@ class UserService(ServiceBase[User, UserCreate, UserUpdate]):
         ).first()
     
     def get_multi(self, db: Session, skip: int = 0, limit: int = 100) -> List[User]:
-        return db.query(self.model).filter(
-            self.model.is_active == True
-        ).offset(skip).limit(limit).all()
+        return db.query(self.model).offset(skip).limit(limit).all()
 
     def create(self, db: Session, obj_in: UserCreate) -> User:
         obj_in_data = jsonable_encoder(obj_in)
@@ -27,22 +26,8 @@ class UserService(ServiceBase[User, UserCreate, UserUpdate]):
         db.add(user)
         db.flush()
         
-        return user
-    
-    def set_discount(self, db: Session, user_id: str, discount: int):
-        user = self.get_by_id(db, user_id)
-        
-        self.__validate_discount(discount)
-        
-        user.discount = discount
-        
-        db.add(user)
-        db.flush()
+        budget_service.create(db, BudgetCreate(user_id=user.id))
         
         return user
-    
-    def __validate_discount(self, discount: int):
-        if discount < 0 or discount > 100:
-            raise BadRequestException("Discount must be between 0 and 100")
 
 user_service = UserService(User)

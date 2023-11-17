@@ -11,7 +11,7 @@ class GeoLocationBase(Model):
 
 
 class GeoLocationCreate(GeoLocationBase):
-    user_id: uuid.UUID
+    pass
 
 
 class GeoLocationUpdate(GeoLocationBase):

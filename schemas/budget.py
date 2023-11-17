@@ -7,7 +7,6 @@ from .base import Model, ReadModel
 
 class BudgetBase(Model):
     user_id: uuid.UUID
-    balance: Optional[str]
 
 
 class BudgetCreate(BudgetBase):
@@ -20,6 +19,7 @@ class BudgetUpdate(BudgetBase):
 
 class BudgetRead(BudgetBase, ReadModel):
     user_id: Optional[uuid.UUID]
+    balance: Optional[str]
 
     class Config:
         orm_mode = True

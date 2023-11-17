@@ -24,6 +24,12 @@ class Book(Model, Base):
     image_link = Column(TEXT, nullable=True)
     is_active = Column(Boolean, nullable=False, default=True)
     
-    publisher = relationship("User", back_populates="books")
-    genre = relationship("Genre", back_populates="books")
-    author = relationship("Author", back_populates="books")
+    publisher = relationship("User", 
+                             foreign_keys=[publisher_id],
+                             back_populates="books")
+    genre = relationship("Genre",
+                         foreign_keys=[genre_id],
+                         back_populates="books")
+    author = relationship("Author",
+                          foreign_keys=[author_id],
+                          back_populates="books")

@@ -16,4 +16,6 @@ class Budget(Model, Base):
     balance = Column(String, nullable=False,
                         server_default="0")
     
-    user = relationship("User", back_populates="budget")
+    user = relationship("User",
+                        foreign_keys=[user_id],
+                        back_populates="budget")
