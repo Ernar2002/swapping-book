@@ -14,19 +14,9 @@ class Model(BaseModel):
 
 class NamedModel(Model):
     name: str = Field(None)
-    nameKZ: Optional[str] = Field(None, nullable=True)
 
     class Config:
         orm_mode = True
-
-
-class TextModel(Model):
-    text: str
-    textkz: Optional[str] = Field(None, nullable=True)
-    
-    class Config:
-        orm_mode = True
-
 
 class ReadModel(Model):
     id: Optional[uuid.UUID]
@@ -39,15 +29,6 @@ class ReadModel(Model):
 
 class ReadNamedModel(NamedModel, ReadModel):
     name: Optional[str]
-    nameKZ: Optional[str]
-
-    class Config:
-        orm_mode = True
-
-
-class ReadTextModel(TextModel, ReadModel):
-    text: Optional[str]
-    textkz: Optional[str]
 
     class Config:
         orm_mode = True
