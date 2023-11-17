@@ -1,7 +1,7 @@
-from typing import Optional
+from typing import Optional, List
 
 from .base import Model, ReadModel
-
+from schemas import BookRead, BudgetRead
 
 class UserBase(Model):
     email: str
@@ -23,6 +23,8 @@ class UserRead(UserBase, ReadModel):
     first_name: Optional[str]
     last_name: Optional[str]
     phone_number: Optional[str]
+    books: Optional[List[BookRead]]
+    budget: Optional[BudgetRead]
     
     class Config:
         orm_mode = True

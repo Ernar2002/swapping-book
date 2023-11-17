@@ -17,7 +17,7 @@ class User(Model, Base):
     
     books = relationship("Book", back_populates="publisher",
                             cascade="all, delete")
-    budget = relationship("Budget", back_populates="user",
+    budget = relationship("Budget", uselist=False, back_populates="user",
                             cascade="all, delete")
     geolocation = relationship("GeoLocation", back_populates="user",
                             cascade="all, delete")
