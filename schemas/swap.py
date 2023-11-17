@@ -2,10 +2,10 @@ import uuid
 
 from typing import Optional
 
-from .base import NamedModel, ReadNamedModel
+from .base import Model, ReadModel
 
 
-class SwapBase(NamedModel):
+class SwapBase(Model):
     receiver_id: uuid.UUID
     offer_book_id: uuid.UUID
     receiver_book_id: uuid.UUID
@@ -19,7 +19,7 @@ class SwapUpdate(SwapBase):
     pass
 
 
-class SwapRead(SwapBase, ReadNamedModel):
+class SwapRead(SwapBase, ReadModel):
     offer_id: Optional[uuid.UUID]
     receiver_id: Optional[uuid.UUID]
     offer_book_id: Optional[uuid.UUID]

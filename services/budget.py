@@ -31,7 +31,7 @@ class BudgetService:
         ).first()
         
         if budget is None:
-            raise BadRequestException("Budget not found")
+            budget = self.create(db, BudgetCreate(user_id=user_id))
         
         return budget
         

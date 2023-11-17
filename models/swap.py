@@ -10,9 +10,9 @@ from .base import Model
 
 class SwapStatusEnum(str, enum.Enum):
     PENDING = "Ожидание подтверждения"
-    CONFIRMED = "Подтвержден"
+    CANCELED = "Отменен"
+    APPLIED = "Принят"
     REJECTED = "Отклонен"
-    IN_PROGRESS = "В процессе"
     COMPLETED = "Завершен"
 
 
