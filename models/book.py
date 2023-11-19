@@ -23,6 +23,7 @@ class Book(Model, Base):
     year = Column(Integer)
     image_link = Column(TEXT, nullable=True)
     is_active = Column(Boolean, nullable=False, default=True)
+    key = Column(String, nullable=True)
     
     publisher = relationship("User", 
                              foreign_keys=[publisher_id],

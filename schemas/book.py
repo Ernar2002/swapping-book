@@ -10,6 +10,7 @@ class BookBase(NamedModel):
     author_id: uuid.UUID
     year: int
     image_link: Optional[str]
+    key: Optional[str]
 
 
 class BookCreate(BookBase):
